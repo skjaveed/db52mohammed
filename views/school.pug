@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  h1= title
+  - var results = [{"Name":"Sri Chaitanya", "Address":"Guntur","School_ID":1234},{"Name":"Narayana", "Address":"Hyderabad","School_ID":4567},{"Name":"Bhashyam", "Address":"Vijayawada","School_ID":7890}]
+  div(class="container-fuild")
+    div(class="row")
+      each result,index in results
+        div(class = "col-sm-2" id=index onclick=`buy(${index})`) 
+          p #{result.Name}
+          p #{result.Address}
+          p #{result.School_ID}  
+
+  script.
+   function buy(element){
+     alert(`You purchased item ${element+1}.`)
+    }
