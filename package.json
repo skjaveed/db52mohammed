@@ -18,5 +18,14 @@
   "main": "app.js",
   "author": "Mohammed Javeed",
   "license": "ISC",
-  "description": ""
+  "description": "Hello this is Web apps assignment 11",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skjaveed/db52mohammed.git"
+  },
+  "bugs": {
+    "url": "https://github.com/skjaveed/db52mohammed/issues"
+  },
+  "homepage": "https://github.com/skjaveed/db52mohammed#readme"
 }
