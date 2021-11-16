@@ -111,3 +111,17 @@ ${JSON.stringify(req.body)}`)
 failed`);
  }
 };
+
+ // Handle a show one view with id specified by query 
+ exports.school_view_one_Page = async function(req, res) { 
+    console.log("single view for id "  + req.query.id) 
+    try{ 
+        result = await school.findById( req.query.id) 
+        res.render('schooldetail',  
+{ title: 'school Detail', toShow: result }); 
+    } 
+    catch(err){ 
+        res.status(500) 
+        res.send(`{'error': '${err}'}`); 
+    } 
+}; 

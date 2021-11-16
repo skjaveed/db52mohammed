@@ -1,0 +1,22 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let schoolid = toShow._id 
+  - let Name = toShow.Name 
+  - let Address = toShow.Address 
+  - let School_ID = toShow.School_ID
+  div 
+    div.row 
+      div(class='schoolAttr mr-3') school ID is: 
+      div #{schoolid} 
+    div.row 
+      div(class='schoolAttr mr-3') Name is: 
+      div #{Name} 
+    div.row 
+      div(class='schoolAttr mr-3') Addressis: 
+      div #{Address} 
+    div.row 
+      div(class='schoolAttr mr-3') School_ID is: 
+      div #{School_ID} 
