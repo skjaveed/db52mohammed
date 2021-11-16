@@ -1,0 +1,50 @@
+extends layout 
+ 
+block content 
+  h1= title 
+ 
+  - let id = toShow._id 
+  - let name = toShow.Name 
+  - let address = toShow.Address 
+  - let schoolId = toShow.School_ID 
+   
+  div.row(class='mb-2') 
+    div.mr-1 ID is 
+    div #{id} 
+  - let actionid = "/resource/school/" + id 
+  form(id='SchoolForm', action=actionid, method="PUT") 
+    div.form-group 
+        label.schoolAttr(for='Name') School Name 
+        input#Name(type='text', name='Name' value=name) 
+    div.form-group 
+        label.schoolAttr(for='Address') School  Address
+        input#Address(type='text', name='Address' value=address) 
+    div.form-group 
+        label.schoolAttr(for='School_ID') School ID 
+        input#School_ID(type='number', name='School_ID' value=schoolId) 
+    input(type="submit")
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel 
+ 
+  script. 
+    function cancel() { 
+      // Go back to the home page for the costume collection 
+      window.location.href='/school' 
+    }  
+ 
+  script. 
+    document.forms['SchoolForm'].addEventListener('submit', (event) => { 
+      event.preventDefault(); 
+      // TODO do something here to show user that form is being submitted 
+      fetch(event.target.action, { 
+        method: 'PUT', 
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form 
+      }).then((resp) => { 
+        return resp.json(); // or resp.text() or whatever the server sends 
+      }).then((body) => { 
+        alert("Update succeded") 
+        // TODO handle body 
+      }).catch((error) => { 
+        // TODO handle error 
+        alert("Update failed " + error ) 
+      }); 
+    }); 

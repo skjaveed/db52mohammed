@@ -24,21 +24,38 @@ exports.school_create_post = async function (req, res) {
 };
 // Handle Gas delete form on DELETE.
 // Handle school delete on DELETE.
-exports.school_delete = async function(req, res) {
+exports.school_delete = async function (req, res) {
     console.log("delete " + req.params.id)
     try {
-    result = await school.findByIdAndDelete( req.params.id)
-    console.log("Removed " + result)
-    res.send(result)
+        result = await school.findByIdAndDelete(req.params.id)
+        console.log("Removed " + result)
+        res.send(result)
     } catch (err) {
-    res.status(500)
-    res.send(`{"error": Error deleting ${err}}`);
+        res.status(500)
+        res.send(`{"error": Error deleting ${err}}`);
     }
-   };
+};
 
 // Handle Gas update form on PUT.
-exports.school_update_put = function (req, res) {
-    res.send('NOT IMPLEMENTED: school update PUT' + req.params.id);
+exports.school_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`)
+    try {
+        let toUpdate = await school.findById(req.params.id)
+        console.log(toUpdate)
+        // Do updates of properties 
+        if (req.body.Name)
+            toUpdate.Name = req.body.Name;
+        if (req.body.Address) toUpdate.Address = req.body.Address;
+        if (req.body.School_ID) toUpdate.School_ID = req.body.School_ID;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`);
+    }
 };
 
 // List of all Gass
@@ -68,57 +85,99 @@ exports.school_view_all_Page = async function (req, res) {
 };
 
 // for a specific school.
-exports.school_detail = async function(req, res) {
+exports.school_detail = async function (req, res) {
     console.log("detail" + req.params.id)
     try {
-    result = await school.findById( req.params.id)
-    res.send(result)
+        result = await school.findById(req.params.id)
+        res.send(result)
     } catch (error) {
-    res.status(500)
-    res.send(`{"error": document for id ${req.params.id} not found`);
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
     }
 };
 
-   // for a specific school.
-exports.school_detail = async function(req, res) {
+// for a specific school.
+exports.school_detail = async function (req, res) {
     console.log("detail" + req.params.id)
     try {
-    result = await school.findById( req.params.id)
-    res.send(result)
+        result = await school.findById(req.params.id)
+        res.send(result)
     } catch (error) {
-    res.status(500)
-    res.send(`{"error": document for id ${req.params.id} not found`);
+        res.status(500)
+        res.send(`{"error": document for id ${req.params.id} not found`);
     }
 };
 
 // Handle school update form on PUT.
-exports.school_update_put = async function(req, res) {
- console.log(`update on id ${req.params.id} with body
+exports.school_update_put = async function (req, res) {
+    console.log(`update on id ${req.params.id} with body
 ${JSON.stringify(req.body)}`)
- try {
- let toUpdate = await school.findById( req.params.id)
- // Do updates of properties
- if(req.body.Name)
- toUpdate.Name = req.body.Name;
- if(req.body.Address) toUpdate.Address = req.body.Address;
- if(req.body.School_ID) toUpdate.School_ID = req.body.School_ID;
- let result = await toUpdate.save();
- console.log("Sucess " + result)
- res.send(result)
- } catch (err) {
- res.status(500)
- res.send(`{"error": ${err}: Update for id ${req.params.id}
+    try {
+        let toUpdate = await school.findById(req.params.id)
+        // Do updates of properties
+        if (req.body.Name)
+            toUpdate.Name = req.body.Name;
+        if (req.body.Address) toUpdate.Address = req.body.Address;
+        if (req.body.School_ID) toUpdate.School_ID = req.body.School_ID;
+        let result = await toUpdate.save();
+        console.log("Sucess " + result)
+        res.send(result)
+    } catch (err) {
+        res.status(500)
+        res.send(`{"error": ${err}: Update for id ${req.params.id}
 failed`);
- }
+    }
 };
 
- // Handle a show one view with id specified by query 
- exports.school_view_one_Page = async function(req, res) { 
-    console.log("single view for id "  + req.query.id) 
+// Handle a show one view with id specified by query 
+exports.school_view_one_Page = async function (req, res) {
+    console.log("single view for id " + req.query.id)
+    try {
+        result = await school.findById(req.query.id)
+        res.render('schooldetail',
+            { title: 'school Detail', toShow: result });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+
+// Handle building the view for creating a costume. 
+// No body, no in path parameter, no query. 
+// Does not need to be async 
+exports.school_create_Page = function (req, res) {
+    console.log("create view")
+    try {
+        res.render('schoolcreate', { title: 'School Create' });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+
+// Handle building the view for updating a costume. 
+// query provides the id 
+exports.school_update_Page = async function (req, res) {
+    console.log("update view for item " + req.query.id)
+    try {
+        let result = await school.findById(req.query.id)
+        res.render('schoolupdate', { title: 'School Update', toShow: result });
+    }
+    catch (err) {
+        res.status(500)
+        res.send(`{'error': '${err}'}`);
+    }
+};
+
+// Handle a delete one view with id from query 
+exports.school_delete_Page = async function(req, res) { 
+    console.log("Delete view for id "  + req.query.id) 
     try{ 
-        result = await school.findById( req.query.id) 
-        res.render('schooldetail',  
-{ title: 'school Detail', toShow: result }); 
+        result = await school.findById(req.query.id) 
+        res.render('schooldelete', { title: 'School Delete', toShow: 
+result }); 
     } 
     catch(err){ 
         res.status(500) 

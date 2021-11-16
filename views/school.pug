@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1= title
-  - var results = [{"Name":"Sri Chaitanya", "Address":"Guntur","School_ID":1234},{"Name":"Narayana", "Address":"Hyderabad","School_ID":4567},{"Name":"Bhashyam", "Address":"Vijayawada","School_ID":7890}]
+  
   div(class="container-fuild")
     div(class="row")
       each result,index in results
@@ -10,6 +10,9 @@ block content
           p #{result.Name}
           p #{result.Address}
           p #{result.School_ID}  
+          a(href="school/update/?id="+result.id)  Update
+          a(href="school/detail/?id="+result.id)  View
+          a(href="school/delete/?id="+result.id)  Delete
 
   script.
    function buy(element){

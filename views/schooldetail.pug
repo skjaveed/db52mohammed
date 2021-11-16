@@ -20,3 +20,11 @@ block content
     div.row 
       div(class='schoolAttr mr-3') School_ID is: 
       div #{School_ID} 
+
+    button(class="btn btn-secondary m-2" onclick="cancel()") Cancel 
+ 
+  script. 
+    function cancel() { 
+      // Go back to the home page for the costume collection 
+      window.location.href='/school' 
+    } 
