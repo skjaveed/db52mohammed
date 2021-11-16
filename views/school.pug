@@ -2,8 +2,9 @@ extends layout
 
 block content
   h1= title
-  
+  a(href="school/create")  Create
   div(class="container-fuild")
+  
     div(class="row")
       each result,index in results
         div(class = "col-sm-2" id=index onclick=`buy(${index})`) 
