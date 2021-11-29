@@ -2,20 +2,29 @@ extends layout
 
 block content
   h1= title
-  a(href="school/create")  Create
+  - let o;
+  - let item = results;
   div(class="container-fuild")
-  
-    div(class="row")
-      each result,index in results
-        div(class = "col-sm-2" id=index onclick=`buy(${index})`) 
-          p #{result.Name}
-          p #{result.Address}
-          p #{result.School_ID}  
-          a(href="school/update/?id="+result.id)  Update
-          a(href="school/detail/?id="+result.id)  View
-          a(href="school/delete/?id="+result.id)  Delete
+    a(class="btn btn-primary" href="/school/create") Create
+    div(class='row m-1')
+    div(class= "row row-cols-1 row-cols-sm-4 g-6")
+      each item,index in results
+        - let destination = `dispatch(\"/school/update?id=${item._id}\")`
+        - let destination1 = `dispatch(\"/school/detail?id=${item._id}\")`
+        - let destination2 = `dispatch(\"/school/delete?id=${item._id}\")`
+        div(class="card text-white bg-success mb-3" class='col card card-body card-text' onclick='buy('+index+')') Item #{item.Name}(#{item.Address}) is #{item.School_ID}
+          <br><br>
+          button.btn( class="btn-primary ml-1", onclick= destination) Update
+          button.btn( class="btn-primary ml-1", onclick= destination1) View
+          button.btn( class="btn-primary ml-1", onclick= destination2) Delete
+
 
   script.
    function buy(element){
      alert(`You purchased item ${element+1}.`)
+    }
+
+  script.
+    function dispatch(path){
+     window.location.href=path
     }
